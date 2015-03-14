@@ -1,0 +1,70 @@
+<html>
+<head>
+	<script type="text/javascript">
+		function getScript(source, callback) {
+		    var script = document.createElement('script');
+		    var prior = document.getElementsByTagName('script')[0];
+		    prior.parentNode.insertBefore(script, prior);
+
+		    script.onload = script.onreadystatechange = function( _, isAbort ) {
+		        if(isAbort || !script.readyState || /loaded|complete/.test(script.readyState) ) {
+		            script.onload = script.onreadystatechange = null;
+		            script = undefined;
+
+		            if(!isAbort) { if(callback) callback(); }
+		        }
+		    };
+
+		    script.src = source;
+		}
+		var $prot;
+		function loadOtherJavascriptLibrariesAfterPrototypeJS()
+		{
+			$prot = $;
+			//OTHER LIBRARIES DEPENDENT ON PLATFORM.JS CAN BE LOADED HERE.
+			//THESE SHOULD BE MODIFIED TO USE $prot INSTEAD OF $
+			//getScript("/javascript/jsw.js");
+			//getScript("/javascript/common.js");
+			//getScript("/smb/scripts/smb.js");
+			//getScript("/javascript/externals/modernizr.js");
+			//getScript("/javascript/responsive.js");
+			//getScript("/javascript/task-progress-bar.js");
+			//getScript("/javascript/search.js");
+			//getScript("/javascript/task.js");
+			//getScript("/smb/scripts/web-sites-and-domains.js");
+			//getScript("/javascript/wordpress-popup-manager.js");
+			//getScript("/modules/image-preview/global.js");
+			//getScript("/modules/plesk-integration/global.js");
+
+			getScript("http://prototypesample.com:85/jquery-1.11.2.min.js");
+		}
+		getScript("http://prototypesample.com:85/prototype.js", loadOtherJavascriptLibrariesAfterPrototypeJS);
+		
+	</script>
+	<script type="text/javascript">
+		var check$ = function()
+		{
+			document.getElementById("maindiv1").innerText = "Prototype library's $ function \n\n" + $prot;
+
+			document.getElementById("maindiv2").innerText = "jQuery library's $ function \n\n" + $;
+
+			//FROM HERE IF WE USE $prot YOU CAN SEE THAT PROTOTYPE.JS RETAINS PROPER DEFINITION OF $
+			$prot("maindiv1").setStyle({backgroundColor:"red"});
+		}
+	</script>
+</head>
+<body onload="check$()">
+	<div id="maindiv1">
+		Show that prototype load works
+	</div>
+
+	<div>
+		<br />
+		<br />
+	</div>
+
+	<div id="maindiv2">
+		Show that jQuery load works
+	</div>
+</body>
+</html>
